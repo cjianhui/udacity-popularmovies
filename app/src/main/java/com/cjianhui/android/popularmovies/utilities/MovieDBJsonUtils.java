@@ -2,14 +2,18 @@ package com.cjianhui.android.popularmovies.utilities;
 
 import com.cjianhui.android.popularmovies.models.Movie;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Utility functions to handle the themoviedb.org JSON data.
  */
 public final class MovieDBJsonUtils {
-
 
     /**
      * This method parses JSON from a web response and returns an array of Movie objects
@@ -46,6 +50,43 @@ public final class MovieDBJsonUtils {
         final String MOVIE_OVERVIEW = "overview";
         final String MOVIE_RELEASE_DATE = "release_date";
 
+        Movie[] parsedMovies = null;
         JSONObject moviesJson = new JSONObject(json);
+
+
+        JSONArray moviesArray = moviesJson.getJSONArray(MOVIE_RESULTS);
+        parsedMovies = new Movie[moviesArray.length()];
+
+        for (int i = 0; i < moviesArray.length(); i++) {
+            JSONObject movieObject = moviesArray.getJSONObject(i);
+            int id = movieObject.getInt(MOVIE_ID);
+            int voteCount = movieObject.getInt(MOVIE_VOTE_COUNT);
+            boolean isVideo = movieObject.getBoolean(MOVIE_IS_VIDEO);
+            double voteAverage = movieObject.getDouble(MOVIE_VOTE_AVG);
+            String title = movieObject.getString(MOVIE_TITLE);
+            double popularity = movieObject.getDouble(MOVIE_POPULARITY);
+            String posterPath = movieObject.getString(MOVIE_POSTER_PATH);
+            String originalLanguage = movieObject.getString(MOVIE_ORIGINAL_LANG);
+            String originalTitle = movieObject.getString(MOVIE_ORIGINAL_TITLE);
+            JSONArray genreIdsArray = movieObject.getJSONArray(MOVIE_GENRE_IDS);
+            List<Integer> genreIds = new ArrayList<>();
+
+            for (int j = 0; i < genreIdsArray.length(); j++) {
+                   genreIds.add(genreIdsArray.getInt(i));
+            }
+
+            String movieBackdropPath = movieObject.getString(MOVIE_BACKDROP_PATH);
+            boolean isAdult = movieObject.getBoolean(MOVIE_IS_ADULT);
+            String overview = movieObject.getString(MOVIE_OVERVIEW);
+            String releaseDate = movieObject.getString(MOVIE_RELEASE_DATE);
+
+            Movie movie = new Movie(id, voteCount, isVideo, voteAverage, title, popularity, posterPath, originalLanguage, originalTitle, genreIds,
+                    movieBackdropPath, isAdult, overview, releaseDate);
+
+            parsedMovies[i] = movie;
+
+        }
+
+        return parsedMovies;
      }
 }

@@ -63,6 +63,19 @@ public class NetworkUtils {
         return url;
     }
 
+    public static String buildImageLink(String imagePath) {
+        String BASE_URL = "http://image.tmdb.org/t/p";
+        /* w92, w154, w185, w342, w500, w780, original */
+        String IMAGE_SIZE = "w185";
+        Uri builtUri = Uri.parse(BASE_URL).buildUpon()
+                .appendPath(IMAGE_SIZE)
+                .appendPath(imagePath)
+                .build();
+
+        String imageLink = builtUri.toString();
+        return imageLink;
+    }
+
     /**
      * This method returns the entire result from the HTTP response.
      *

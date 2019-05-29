@@ -7,6 +7,7 @@ public class Movie {
     private int voteCount;
     private boolean video;
     private double voteAverage;
+    private String title;
     private double popularity;
     private String posterPath;
     private String originalLanguage;
@@ -18,7 +19,7 @@ public class Movie {
     private String releaseDate;
 
     public Movie(int id, int voteCount, boolean video, double voteAverage,
-                 double popularity, String posterPath, String originalLanguage,
+                 String title, double popularity, String posterPath, String originalLanguage,
                  String originalTitle, List<Integer> genreIds, String backdropPath, boolean adult,
                  String overview, String releaseDate) {
 
@@ -26,6 +27,7 @@ public class Movie {
         this.voteCount = voteCount;
         this.video = video;
         this.voteAverage = voteAverage;
+        this.title = title;
         this.popularity = popularity;
         this.posterPath = posterPath;
         this.originalLanguage = originalLanguage;
