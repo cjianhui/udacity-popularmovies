@@ -21,14 +21,14 @@ public class NetworkUtils {
     private static final String API_KEY = BuildConfig.MOVIEDB_API_KEY;
 
     private static final String MOVIEDB_BASE_URL =
-            "http://api.themoviedb.org/3/discover/movie";
+            "http://api.themoviedb.org/3/movie";
 
     /* Query Parameters */
-    final static String API_KEY_PARAM = "api_key";
+    private final static String API_KEY_PARAM = "api_key";
 
     /* Endpoints */
-    final static String POPULAR_ENDPOINT = "popular";
-    final static String TOP_RATED_ENDPOINT = "top_rated";
+    private final static String POPULAR_ENDPOINT = "popular";
+    private final static String TOP_RATED_ENDPOINT = "top_rated";
 
 
     /**
