@@ -40,10 +40,14 @@ public class NetworkUtils {
     public static URL buildUrl(String endpoint) {
 
         /* Top rated endpoint used by default */
-        String ENDPOINT = TOP_RATED_ENDPOINT;
+        String ENDPOINT;
 
         if (endpoint.equals("popular")) {
             ENDPOINT = POPULAR_ENDPOINT;
+        } else if (endpoint.equals("top_rated")) {
+            ENDPOINT = TOP_RATED_ENDPOINT;
+        } else {
+            ENDPOINT = TOP_RATED_ENDPOINT;
         }
 
         Uri builtUri = Uri.parse(MOVIEDB_BASE_URL).buildUpon()
@@ -73,6 +77,8 @@ public class NetworkUtils {
                 .build();
 
         String imageLink = builtUri.toString();
+
+        Log.v(TAG, "Built image link " + imageLink);
         return imageLink;
     }
 

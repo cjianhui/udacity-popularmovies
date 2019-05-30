@@ -71,8 +71,8 @@ public final class MovieDBJsonUtils {
             JSONArray genreIdsArray = movieObject.getJSONArray(MOVIE_GENRE_IDS);
             List<Integer> genreIds = new ArrayList<>();
 
-            for (int j = 0; i < genreIdsArray.length(); j++) {
-                   genreIds.add(genreIdsArray.getInt(i));
+            for (int j = 0; j < genreIdsArray.length(); j++) {
+                   genreIds.add(genreIdsArray.getInt(j));
             }
 
             String movieBackdropPath = movieObject.getString(MOVIE_BACKDROP_PATH);

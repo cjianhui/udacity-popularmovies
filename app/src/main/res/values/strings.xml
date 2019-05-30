@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Popular Movies</string>
+    <string name="action_sort">Sort</string>
+    <string name="sort_by_popularity">Popularity</string>
+    <string name="sort_by_rating">Rating</string>
+    <string name="release_date">Release Date</string>
+    <string name="rating">Rating</string>
+    <string name="overview">Plot Sypnosis</string>
+    <string name="internet_unavailable">Internet Unavailable!</string>
 </resources>
