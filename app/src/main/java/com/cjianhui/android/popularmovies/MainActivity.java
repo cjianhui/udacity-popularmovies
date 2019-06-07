@@ -1,6 +1,10 @@
 package com.cjianhui.android.popularmovies;
 
+import android.content.Context;
+import android.graphics.Rect;
 import android.os.AsyncTask;
+import android.support.annotation.DimenRes;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -18,8 +22,6 @@ import com.cjianhui.android.popularmovies.utilities.MovieDBJsonUtils;
 import com.cjianhui.android.popularmovies.utilities.NetworkUtils;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -29,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private static final String TAG = MainActivity.class.getSimpleName();
+    private static final int NUM_COLUMNS = 2;
 
     private TextView mErrorMessageDisplay;
     private RecyclerView mRecyclerView;
@@ -48,8 +51,10 @@ public class MainActivity extends AppCompatActivity {
 
         mMovieAdapter = new MoviesAdapter();
 
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 2);
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, NUM_COLUMNS);
         mRecyclerView.setLayoutManager(mLayoutManager);
+        ItemOffsetDecoration itemOffsetDecoration = new ItemOffsetDecoration(this, R.dimen.movie_item_offset);
+        mRecyclerView.addItemDecoration(itemOffsetDecoration);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(mMovieAdapter);
 
@@ -105,7 +110,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateSort(String sortBy) {
-        this.sortBy = sortBy;
+        if (this.sortBy != sortBy) {
+            this.sortBy = sortBy;
+            loadMoviesData();
+        }
     }
 
     private void showMoviesView() {
@@ -162,5 +170,28 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /*
+        Equal column spacing for Android RecyclerView GridLayoutManager by using custom ItemDecoration
+        Source: https://gist.github.com/yqritc/ccca77dc42f2364777e1
+    */
+    public class ItemOffsetDecoration extends RecyclerView.ItemDecoration {
+
+        private int mItemOffset;
+
+        public ItemOffsetDecoration(int itemOffset) {
+            mItemOffset = itemOffset;
+        }
+
+        public ItemOffsetDecoration(@NonNull Context context, @DimenRes int itemOffsetId) {
+            this(context.getResources().getDimensionPixelSize(itemOffsetId));
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent,
+                                   RecyclerView.State state) {
+            super.getItemOffsets(outRect, view, parent, state);
+            outRect.set(mItemOffset, mItemOffset, mItemOffset, mItemOffset);
+        }
+    }
 
 }
