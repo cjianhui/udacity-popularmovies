@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Popular Movies</string>
+    <string name="popular_movies_title">Most Popular</string>
+    <string name="top_rated_movies_title">Top Rated</string>
     <string name="action_sort">Sort</string>
     <string name="sort_by_popularity">Popularity</string>
     <string name="sort_by_rating">Rating</string>
@@ -8,4 +10,5 @@
     <string name="overview">Plot Sypnosis</string>
     <string name="internet_unavailable">Internet Unavailable!</string>
     <string name="error_message">An error occurred! Please try again!</string>
+    <string name="totalRatingScore">/10</string>
 </resources>

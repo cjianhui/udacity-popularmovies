@@ -1,6 +1,7 @@
 package com.cjianhui.android.popularmovies;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Rect;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -26,7 +27,7 @@ import com.cjianhui.android.popularmovies.utilities.NetworkUtils;
 import java.net.URL;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MoviesAdapter.MoviesAdapterOnClickHandler {
 
     private enum Sort {
         popular, top_rated
@@ -35,12 +36,19 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final int NUM_COLUMNS = 2;
 
+    public static final String MOVIE_TITLE = "movieTitle";
+    public static final String MOVIE_RELEASE_DATE = "movieReleaseDate";
+    public static final String MOVIE_OVERVIEW = "movieOverview";
+    public static final String MOVIE_RATING = "movieRating";
+    public static final String MOVIE_BACKDROP_PATH = "movieBackdropPath";
+    public static final String MOVIE_POSTER_PATH = "moviePosterPath";
+
     private TextView mErrorMessageDisplay;
     private RecyclerView mRecyclerView;
     private ProgressBar mLoadingIndicator;
 
     private MoviesAdapter mMovieAdapter;
-    private String sortBy = Sort.top_rated.name();
+    private String sortBy = Sort.popular.name();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView = (RecyclerView) findViewById(R.id.rv_movies);
         mLoadingIndicator = (ProgressBar) findViewById(R.id.pb_loading_indicator);
 
-        mMovieAdapter = new MoviesAdapter();
+        mMovieAdapter = new MoviesAdapter(this);
 
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, NUM_COLUMNS);
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -61,6 +69,23 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(mMovieAdapter);
 
         loadMoviesData();
+    }
+
+    @Override
+    public void onClick(Movie selectedMovie) {
+        System.out.println("HEREEEE");
+        Context context = this;
+        Class destinationClass = MovieDetailActivity.class;
+        Intent intentToStartDetailActivity = new Intent(context, destinationClass);
+
+        intentToStartDetailActivity.putExtra(MOVIE_TITLE, selectedMovie.getTitle());
+        intentToStartDetailActivity.putExtra(MOVIE_BACKDROP_PATH, selectedMovie.getBackdropPath());
+        intentToStartDetailActivity.putExtra(MOVIE_POSTER_PATH, selectedMovie.getPosterPath());
+        intentToStartDetailActivity.putExtra(MOVIE_RATING, selectedMovie.getVoteAverage());
+        intentToStartDetailActivity.putExtra(MOVIE_RELEASE_DATE, selectedMovie.getReleaseDate());
+        intentToStartDetailActivity.putExtra(MOVIE_OVERVIEW, selectedMovie.getOverview());
+
+        startActivity(intentToStartDetailActivity);
     }
 
     @Override
@@ -126,6 +151,11 @@ public class MainActivity extends AppCompatActivity {
         /* Update only if sort preference was different from the previous one */
         if (!this.sortBy.equals(sortBy)) {
             this.sortBy = sortBy;
+            if (this.sortBy.equals(Sort.top_rated.name()))  {
+                setTitle(R.string.top_rated_movies_title);
+            } else {
+                setTitle(R.string.popular_movies_title);
+            }
             loadMoviesData();
         }
     }

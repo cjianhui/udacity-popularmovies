@@ -67,10 +67,10 @@ public class NetworkUtils {
         return url;
     }
 
-    public static String buildImageLink(String imagePath) {
+    public static String buildImageLink(String imagePath, String imageSize) {
         String BASE_URL = "http://image.tmdb.org/t/p";
         /* w92, w154, w185, w342, w500, w780, original */
-        String IMAGE_SIZE = "w185";
+        String IMAGE_SIZE = imageSize;
         Uri builtUri = Uri.parse(BASE_URL).buildUpon()
                 .appendPath(IMAGE_SIZE)
                 .appendEncodedPath(imagePath)

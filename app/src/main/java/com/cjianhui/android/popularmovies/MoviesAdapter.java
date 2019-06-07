@@ -13,13 +13,22 @@ import com.cjianhui.android.popularmovies.models.Movie;
 import com.cjianhui.android.popularmovies.utilities.NetworkUtils;
 import com.squareup.picasso.Picasso;
 
-import java.util.List;
-
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewHolder> {
 
     private Movie[] mMovieData;
 
-    public class MovieViewHolder extends RecyclerView.ViewHolder {
+
+    private final MoviesAdapterOnClickHandler mClickHandler;
+
+    public interface MoviesAdapterOnClickHandler {
+        void onClick(Movie selectedMovie);
+    }
+
+    public MoviesAdapter (MoviesAdapterOnClickHandler clickHandler) {
+        mClickHandler = clickHandler;
+    }
+
+    public class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView title;
         public ImageView thumbnail;
 
@@ -28,8 +37,15 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
             super(view);
             title = (TextView) view.findViewById(R.id.tv_movie_title);
             thumbnail = (ImageView) view.findViewById(R.id.iv_thumbnail);
+            view.setOnClickListener(this);
         }
 
+        @Override
+        public void onClick(View v) {
+            int adapterPosition = getAdapterPosition();
+            Movie selectedMovie = mMovieData[adapterPosition];
+            mClickHandler.onClick(selectedMovie);
+        }
     }
 
     public void setMoviesData(Movie[] moviesData) {
@@ -53,7 +69,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
     public void onBindViewHolder(@NonNull MovieViewHolder movieViewHolder, int position) {
         Movie movie = mMovieData[position];
         movieViewHolder.title.setText(movie.getTitle());
-        String moviePosterPath = NetworkUtils.buildImageLink(movie.getPosterPath());
+        String moviePosterPath = NetworkUtils.buildImageLink(movie.getPosterPath(), "w185");
         Picasso.get().load(moviePosterPath).into(movieViewHolder.thumbnail);
     }
 
