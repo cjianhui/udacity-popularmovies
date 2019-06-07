@@ -7,4 +7,5 @@
     <string name="rating">Rating</string>
     <string name="overview">Plot Sypnosis</string>
     <string name="internet_unavailable">Internet Unavailable!</string>
+    <string name="error_message">An error occurred! Please try again!</string>
 </resources>

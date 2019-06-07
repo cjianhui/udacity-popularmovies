@@ -2,6 +2,8 @@ package com.cjianhui.android.popularmovies;
 
 import android.content.Context;
 import android.graphics.Rect;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.support.annotation.DimenRes;
 import android.support.annotation.NonNull;
@@ -100,17 +102,29 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public boolean isOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
+    }
+
     /**
      * This method will get the user's preferred sorted listing for movies, and then tell some
      * background method to get the movie data in the background.
      */
     private void loadMoviesData() {
-        showMoviesView();
-        new FetchMoviesTask().execute(sortBy);
+        if (!isOnline()) {
+            showErrorMessage();
+        } else {
+            showMoviesView();
+            new FetchMoviesTask().execute(sortBy);
+        }
     }
 
     private void updateSort(String sortBy) {
-        if (this.sortBy != sortBy) {
+        /* Update only if sort preference was different from the previous one */
+        if (!this.sortBy.equals(sortBy)) {
             this.sortBy = sortBy;
             loadMoviesData();
         }
@@ -127,6 +141,9 @@ public class MainActivity extends AppCompatActivity {
         /* First, hide the currently visible data */
         mRecyclerView.setVisibility(View.INVISIBLE);
         /* Then, show the error */
+        if (isOnline()) {
+            mErrorMessageDisplay.setText(R.string.error_message);
+        }
         mErrorMessageDisplay.setVisibility(View.VISIBLE);
     }
 
