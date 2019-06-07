@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
@@ -30,9 +30,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/iv_thumbnail"
-                android:paddingLeft="@dimen/movie_title_padding"
-                android:paddingRight="@dimen/movie_title_padding"
-                android:paddingTop="@dimen/movie_title_padding" />
+                android:padding="@dimen/movie_title_padding"
+                android:textColor="@color/movie_title"
+                android:textSize="@dimen/movie_title"
+                />
 
         </RelativeLayout>
 

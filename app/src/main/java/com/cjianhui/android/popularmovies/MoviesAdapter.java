@@ -17,8 +17,7 @@ import java.util.List;
 
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewHolder> {
 
-    private Context mContext;
-    private List<Movie> movieList;
+    private Movie[] mMovieData;
 
     public class MovieViewHolder extends RecyclerView.ViewHolder {
         public TextView title;
@@ -33,9 +32,9 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
 
     }
 
-    public MoviesAdapter(Context mContext, List<Movie> movieList) {
-        this.mContext = mContext;
-        this.movieList = movieList;
+    public void setMoviesData(Movie[] moviesData) {
+        mMovieData = moviesData;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -52,7 +51,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
 
     @Override
     public void onBindViewHolder(@NonNull MovieViewHolder movieViewHolder, int position) {
-        Movie movie = movieList.get(position);
+        Movie movie = mMovieData[position];
         movieViewHolder.title.setText(movie.getTitle());
         String moviePosterPath = NetworkUtils.buildImageLink(movie.getPosterPath());
         Picasso.get().load(moviePosterPath).into(movieViewHolder.thumbnail);
@@ -60,6 +59,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
 
     @Override
     public int getItemCount() {
-        return movieList.size();
+        if (null == mMovieData) return 0;
+        return mMovieData.length;
     }
 }

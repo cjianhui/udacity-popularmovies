@@ -73,7 +73,7 @@ public class NetworkUtils {
         String IMAGE_SIZE = "w185";
         Uri builtUri = Uri.parse(BASE_URL).buildUpon()
                 .appendPath(IMAGE_SIZE)
-                .appendPath(imagePath)
+                .appendEncodedPath(imagePath)
                 .build();
 
         String imageLink = builtUri.toString();

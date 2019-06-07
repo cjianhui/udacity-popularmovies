@@ -3,17 +3,23 @@ package com.cjianhui.android.popularmovies;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.cjianhui.android.popularmovies.models.Movie;
 import com.cjianhui.android.popularmovies.utilities.MovieDBJsonUtils;
 import com.cjianhui.android.popularmovies.utilities.NetworkUtils;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -24,7 +30,11 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
+    private TextView mErrorMessageDisplay;
+    private RecyclerView mRecyclerView;
     private ProgressBar mLoadingIndicator;
+
+    private MoviesAdapter mMovieAdapter;
     private String sortBy = Sort.top_rated.name();
 
     @Override
@@ -32,8 +42,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movies);
 
+        mErrorMessageDisplay = (TextView) findViewById(R.id.tv_error_message_display);
+        mRecyclerView = (RecyclerView) findViewById(R.id.rv_movies);
         mLoadingIndicator = (ProgressBar) findViewById(R.id.pb_loading_indicator);
-        new FetchMoviesTask().execute(sortBy);
+
+        mMovieAdapter = new MoviesAdapter();
+
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 2);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setAdapter(mMovieAdapter);
+
+        loadMoviesData();
     }
 
     @Override
@@ -75,14 +95,38 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * This method will get the user's preferred sorted listing for movies, and then tell some
+     * background method to get the movie data in the background.
+     */
+    private void loadMoviesData() {
+        showMoviesView();
+        new FetchMoviesTask().execute(sortBy);
+    }
+
     private void updateSort(String sortBy) {
         this.sortBy = sortBy;
+    }
+
+    private void showMoviesView() {
+        /* First, make sure the error is invisible */
+        mErrorMessageDisplay.setVisibility(View.INVISIBLE);
+        /* Then, make sure the movie data is visible */
+        mRecyclerView.setVisibility(View.VISIBLE);
+    }
+
+    private void showErrorMessage() {
+        /* First, hide the currently visible data */
+        mRecyclerView.setVisibility(View.INVISIBLE);
+        /* Then, show the error */
+        mErrorMessageDisplay.setVisibility(View.VISIBLE);
     }
 
     public class FetchMoviesTask extends AsyncTask<String, Void, Movie[]> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            mLoadingIndicator.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -108,7 +152,13 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Movie[] movies) {
-            super.onPostExecute(movies);
+            mLoadingIndicator.setVisibility(View.INVISIBLE);
+            if (movies != null) {
+                showMoviesView();
+                mMovieAdapter.setMoviesData(movies);
+            } else {
+                showErrorMessage();
+            }
         }
     }
 
