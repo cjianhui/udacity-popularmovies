@@ -55,6 +55,10 @@ public class Movie {
         return voteAverage;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
     public double getPopularity() {
         return popularity;
     }
