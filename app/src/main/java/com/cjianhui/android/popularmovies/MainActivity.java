@@ -55,9 +55,9 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Mov
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movies);
 
-        mErrorMessageDisplay = (TextView) findViewById(R.id.tv_error_message_display);
-        mRecyclerView = (RecyclerView) findViewById(R.id.rv_movies);
-        mLoadingIndicator = (ProgressBar) findViewById(R.id.pb_loading_indicator);
+        mErrorMessageDisplay = findViewById(R.id.tv_error_message_display);
+        mRecyclerView = findViewById(R.id.rv_movies);
+        mLoadingIndicator = findViewById(R.id.pb_loading_indicator);
 
         mMovieAdapter = new MoviesAdapter(this);
 
@@ -73,7 +73,6 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Mov
 
     @Override
     public void onClick(Movie selectedMovie) {
-        System.out.println("HEREEEE");
         Context context = this;
         Class destinationClass = MovieDetailActivity.class;
         Intent intentToStartDetailActivity = new Intent(context, destinationClass);
@@ -195,10 +194,8 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Mov
                         .getResponseFromHttpUrl(moviesRequestUrl);
                 Log.v(TAG, "Movies Json Response: " + jsonMoviesResponse);
 
-                Movie[] movies = MovieDBJsonUtils
+                return MovieDBJsonUtils
                         .parseMovieJson(jsonMoviesResponse);
-
-                return movies;
             } catch (Exception e) {
                 e.printStackTrace();
                 return null;

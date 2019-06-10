@@ -10,5 +10,8 @@
     <string name="overview">Plot Sypnosis</string>
     <string name="internet_unavailable">Internet Unavailable!</string>
     <string name="error_message">An error occurred! Please try again!</string>
-    <string name="totalRatingScore">/10</string>
+    <string name="total_rating_score">/10</string>
+    <string name="movie_thumbnail">Movie Thumbnail</string>
+    <string name="movie_poster">Movie Poster</string>
+    <string name="movie_backdrop">Movie Backdrop</string>
 </resources>

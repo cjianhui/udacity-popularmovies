@@ -21,15 +21,14 @@ public class NetworkUtils {
     private static final String API_KEY = BuildConfig.MOVIEDB_API_KEY;
 
     private static final String MOVIEDB_BASE_URL =
-            "http://api.themoviedb.org/3/movie";
+            "http://api.themoviedb.org/3";
 
     /* Query Parameters */
     private final static String API_KEY_PARAM = "api_key";
 
     /* Endpoints */
-    private final static String POPULAR_ENDPOINT = "popular";
-    private final static String TOP_RATED_ENDPOINT = "top_rated";
-
+    private final static String POPULAR_ENDPOINT = "movie/popular";
+    private final static String TOP_RATED_ENDPOINT = "movie/top_rated";
 
     /**
      * Builds the URL used to talk to the moviedb server using a sorting criteria (popular/top rated)..
@@ -51,7 +50,7 @@ public class NetworkUtils {
         }
 
         Uri builtUri = Uri.parse(MOVIEDB_BASE_URL).buildUpon()
-                .appendPath(ENDPOINT)
+                .appendEncodedPath(ENDPOINT)
                 .appendQueryParameter(API_KEY_PARAM, API_KEY)
                 .build();
 
@@ -68,9 +67,8 @@ public class NetworkUtils {
     }
 
     public static String buildImageLink(String imagePath, String imageSize) {
-        String BASE_URL = "http://image.tmdb.org/t/p";
-        /* w92, w154, w185, w342, w500, w780, original */
         String IMAGE_SIZE = imageSize;
+        String BASE_URL = "http://image.tmdb.org/t/p";
         Uri builtUri = Uri.parse(BASE_URL).buildUpon()
                 .appendPath(IMAGE_SIZE)
                 .appendEncodedPath(imagePath)

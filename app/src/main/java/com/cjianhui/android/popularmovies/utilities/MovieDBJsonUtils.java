@@ -7,7 +7,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -50,7 +49,7 @@ public final class MovieDBJsonUtils {
         final String MOVIE_OVERVIEW = "overview";
         final String MOVIE_RELEASE_DATE = "release_date";
 
-        Movie[] parsedMovies = null;
+        Movie[] parsedMovies;
         JSONObject moviesJson = new JSONObject(json);
 
 

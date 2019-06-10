@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.cjianhui.android.popularmovies.models.ImageSize;
 import com.cjianhui.android.popularmovies.models.Movie;
 import com.cjianhui.android.popularmovies.utilities.NetworkUtils;
 import com.squareup.picasso.Picasso;
@@ -35,8 +36,8 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
 
         public MovieViewHolder(View view) {
             super(view);
-            title = (TextView) view.findViewById(R.id.tv_movie_title);
-            thumbnail = (ImageView) view.findViewById(R.id.iv_thumbnail);
+            title = view.findViewById(R.id.tv_movie_title);
+            thumbnail = view.findViewById(R.id.iv_thumbnail);
             view.setOnClickListener(this);
         }
 
@@ -69,7 +70,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
     public void onBindViewHolder(@NonNull MovieViewHolder movieViewHolder, int position) {
         Movie movie = mMovieData[position];
         movieViewHolder.title.setText(movie.getTitle());
-        String moviePosterPath = NetworkUtils.buildImageLink(movie.getPosterPath(), "w185");
+        String moviePosterPath = NetworkUtils.buildImageLink(movie.getPosterPath(), ImageSize.THUMBNAIL.value());
         Picasso.get().load(moviePosterPath).into(movieViewHolder.thumbnail);
     }
 
