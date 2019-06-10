@@ -9,7 +9,7 @@ Popular Movies is an Android app developed as part of the coursework for Udacity
 ## Setup
 The app use the `themoviedb.org` API to get movie information.
 1. Request your own API key from [themoviedb.org](https://www.themoviedb.org/).
-2. Go to `app/gradle.properties`.
+2. Open `gradle.properties`.
 3. Copy and paste your API key into the variable `MOVIEDB_API_KEY`.
 
 ## Libraries
