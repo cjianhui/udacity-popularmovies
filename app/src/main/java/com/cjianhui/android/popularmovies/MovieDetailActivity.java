@@ -45,6 +45,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         Intent moviesIntent = getIntent();
         if (moviesIntent != null) {
             Movie movie = moviesIntent.getParcelableExtra("Movie");
+            NetworkUtils.buildReviewUrl(movie.getId());
             Picasso.get().load(NetworkUtils.buildImageLink(movie.getBackdropPath(),
                     ImageSize.BACKDROP.value())).into(mMovieBackdropImage);
             mCollapsingToolBarLayout.setTitle(movie.getTitle());

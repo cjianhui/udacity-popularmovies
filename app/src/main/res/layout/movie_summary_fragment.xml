@@ -44,9 +44,16 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="20sp"
-                        android:textColor="@color/darkGrey"
+                        android:textColor="@color/black"
                         android:marqueeRepeatLimit="marquee_forever"
-                        android:id="@+id/tv_movie_title"/>
+                        android:id="@+id/tv_detail_movie_title"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:textColor="@color/darkGrey"
+                        android:id="@+id/tv_detail_movie_genre"/>
 
                     <TextView
                         android:layout_width="wrap_content"

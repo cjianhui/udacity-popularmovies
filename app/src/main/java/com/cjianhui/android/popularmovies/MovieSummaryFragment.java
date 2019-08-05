@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.cjianhui.android.popularmovies.models.ImageSize;
 import com.cjianhui.android.popularmovies.models.Movie;
+import com.cjianhui.android.popularmovies.utilities.GenreUtils;
 import com.cjianhui.android.popularmovies.utilities.NetworkUtils;
 import com.squareup.picasso.Picasso;
 
@@ -35,7 +36,8 @@ public class MovieSummaryFragment extends Fragment {
         }
 
         ImageView mMoviePoster = view.findViewById(R.id.iv_movie_poster);
-        TextView mMovieTitle = view.findViewById(R.id.tv_movie_title);
+        TextView mMovieTitle = view.findViewById(R.id.tv_detail_movie_title);
+        TextView mMovieGenre = view.findViewById(R.id.tv_detail_movie_genre);
         RatingBar mMovieRating = view.findViewById(R.id.rb_movie_rating);
         TextView mMovieRatingTotal = view.findViewById(R.id.tv_movie_rating);
         TextView mMovieOverview = view.findViewById(R.id.tv_movie_overview);
@@ -45,6 +47,8 @@ public class MovieSummaryFragment extends Fragment {
                 ImageSize.POSTER.value())).into(mMoviePoster);
 
         mMovieTitle.setText(movie.getTitle());
+        mMovieGenre.setText(GenreUtils.getGenres(movie.getGenreIds()));
+
         String ratingScoreDisplay = movie.getVoteAverage() + getString(R.string.total_rating_score);
         mMovieRatingTotal.setText(ratingScoreDisplay);
         mMovieRating.setRating((float) Math.round(movie.getVoteAverage() * 10) / 10);

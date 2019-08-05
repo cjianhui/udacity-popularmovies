@@ -29,6 +29,7 @@ public class NetworkUtils {
     /* Endpoints */
     private final static String POPULAR_ENDPOINT = "movie/popular";
     private final static String TOP_RATED_ENDPOINT = "movie/top_rated";
+    private final static String MOVIE_ENDPOINT = "movie";
 
     /**
      * Builds the URL used to talk to the moviedb server using a sorting criteria (popular/top rated)..
@@ -62,6 +63,46 @@ public class NetworkUtils {
         }
 
         Log.v(TAG, "Built URI " + url);
+
+        return url;
+    }
+
+    public  static URL buildReviewUrl(int id) {
+        Uri builtUri = Uri.parse(MOVIEDB_BASE_URL).buildUpon()
+                .appendPath(MOVIE_ENDPOINT)
+                .appendPath(Integer.toString(id))
+                .appendPath("reviews")
+                .appendQueryParameter(API_KEY_PARAM, API_KEY)
+                .build();
+
+        URL url = null;
+        try {
+            url = new URL(builtUri.toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        Log.v(TAG, "Built reviews URI " + url);
+
+        return url;
+    }
+
+    public  static URL buildTrailerUrl(int id) {
+        Uri builtUri = Uri.parse(MOVIEDB_BASE_URL).buildUpon()
+                .appendPath(MOVIE_ENDPOINT)
+                .appendPath(Integer.toString(id))
+                .appendPath("videos")
+                .appendQueryParameter(API_KEY_PARAM, API_KEY)
+                .build();
+
+        URL url = null;
+        try {
+            url = new URL(builtUri.toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        Log.v(TAG, "Built videos URI " + url);
 
         return url;
     }

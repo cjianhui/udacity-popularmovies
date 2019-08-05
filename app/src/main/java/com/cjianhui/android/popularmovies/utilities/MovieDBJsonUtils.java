@@ -1,6 +1,7 @@
 package com.cjianhui.android.popularmovies.utilities;
 
 import com.cjianhui.android.popularmovies.models.Movie;
+import com.cjianhui.android.popularmovies.models.Review;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -88,4 +89,50 @@ public final class MovieDBJsonUtils {
 
         return parsedMovies;
      }
+
+    /**
+     * This method parses JSON from a web response and returns an array of movie review objects
+     * <p/>
+     *
+     * @param json JSON response from server
+     *
+     * @return Array of Reviews
+     *
+     * @throws JSONException If JSON data cannot be properly parsed
+     */
+
+    public static Review[] parseReviewJson(String json) throws JSONException {
+        /* Review information. Each review is an element of the "results" array */
+        final String REVIEW_RESULTS = "results";
+
+        /* Review details */
+        final String REVIEW_ID = "id";
+        final String REVIEW_AUTHOR = "author";
+        final String REVIEW_CONTENT = "content";
+        final String REVIEW_URL = "url";
+
+        Review[] parsedReviews;
+        JSONObject moviesJson = new JSONObject(json);
+
+
+        JSONArray reviewsArray = moviesJson.getJSONArray(REVIEW_RESULTS);
+        if (reviewsArray.length() <= 0) {
+            return null;
+        }
+        parsedReviews = new Review[reviewsArray.length()];
+        for (int i = 0; i < reviewsArray.length(); i++) {
+            JSONObject reviewObject = reviewsArray.getJSONObject(i);
+            String author = reviewObject.getString(REVIEW_AUTHOR);
+            String content = reviewObject.getString(REVIEW_CONTENT);
+            String id = reviewObject.getString(REVIEW_ID);
+            String url = reviewObject.getString(REVIEW_URL);
+
+            Review review = new Review(id, author, content, url);
+            parsedReviews[i] = review;
+        }
+
+        return parsedReviews;
+    }
+
+
 }
