@@ -21,4 +21,11 @@
         <item name="android:background">?android:attr/listDivider</item>
     </style>
 
+    <style name="favButton">
+        <item name="android:layout_width">50dp</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:layout_marginTop">20dp</item>
+    </style>
+
+
 </resources>

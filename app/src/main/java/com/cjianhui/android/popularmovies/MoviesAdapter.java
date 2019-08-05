@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.cjianhui.android.popularmovies.models.ImageSize;
 import com.cjianhui.android.popularmovies.models.Movie;
+import com.cjianhui.android.popularmovies.utilities.GenreUtils;
 import com.cjianhui.android.popularmovies.utilities.NetworkUtils;
 import com.squareup.picasso.Picasso;
 
@@ -32,12 +33,14 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
     public class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView title;
         public ImageView thumbnail;
+        public TextView genres;
 
 
         public MovieViewHolder(View view) {
             super(view);
             title = view.findViewById(R.id.tv_movie_title);
             thumbnail = view.findViewById(R.id.iv_thumbnail);
+            genres = view.findViewById(R.id.tv_movie_genre);
             view.setOnClickListener(this);
         }
 
@@ -72,6 +75,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
         movieViewHolder.title.setText(movie.getTitle());
         String moviePosterPath = NetworkUtils.buildImageLink(movie.getPosterPath(), ImageSize.THUMBNAIL.value());
         Picasso.get().load(moviePosterPath).into(movieViewHolder.thumbnail);
+        movieViewHolder.genres.setText(GenreUtils.getGenres(movie.getGenreIds()));
     }
 
     @Override
