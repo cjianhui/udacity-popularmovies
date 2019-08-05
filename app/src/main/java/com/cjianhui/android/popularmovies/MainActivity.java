@@ -36,13 +36,6 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Mov
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final int NUM_COLUMNS = 2;
 
-    public static final String MOVIE_TITLE = "movieTitle";
-    public static final String MOVIE_RELEASE_DATE = "movieReleaseDate";
-    public static final String MOVIE_OVERVIEW = "movieOverview";
-    public static final String MOVIE_RATING = "movieRating";
-    public static final String MOVIE_BACKDROP_PATH = "movieBackdropPath";
-    public static final String MOVIE_POSTER_PATH = "moviePosterPath";
-
     private TextView mErrorMessageDisplay;
     private RecyclerView mRecyclerView;
     private ProgressBar mLoadingIndicator;
@@ -76,14 +69,7 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Mov
         Context context = this;
         Class destinationClass = MovieDetailActivity.class;
         Intent intentToStartDetailActivity = new Intent(context, destinationClass);
-
-        intentToStartDetailActivity.putExtra(MOVIE_TITLE, selectedMovie.getTitle());
-        intentToStartDetailActivity.putExtra(MOVIE_BACKDROP_PATH, selectedMovie.getBackdropPath());
-        intentToStartDetailActivity.putExtra(MOVIE_POSTER_PATH, selectedMovie.getPosterPath());
-        intentToStartDetailActivity.putExtra(MOVIE_RATING, selectedMovie.getVoteAverage());
-        intentToStartDetailActivity.putExtra(MOVIE_RELEASE_DATE, selectedMovie.getReleaseDate());
-        intentToStartDetailActivity.putExtra(MOVIE_OVERVIEW, selectedMovie.getOverview());
-
+        intentToStartDetailActivity.putExtra("Movie", selectedMovie);
         startActivity(intentToStartDetailActivity);
     }
 

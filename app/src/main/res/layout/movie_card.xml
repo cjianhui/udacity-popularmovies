@@ -71,6 +71,7 @@
                     android:id="@+id/movie_fav_button"
                     style="@style/favButton"
                     app:anim_scale_factor="5"
+                    liked="false"
                     />
 
 
