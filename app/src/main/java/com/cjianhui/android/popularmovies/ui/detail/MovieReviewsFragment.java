@@ -1,10 +1,12 @@
-package com.cjianhui.android.popularmovies;
+package com.cjianhui.android.popularmovies.ui.detail;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.cjianhui.android.popularmovies.R;
 
 public class MovieReviewsFragment extends Fragment {
     @Override

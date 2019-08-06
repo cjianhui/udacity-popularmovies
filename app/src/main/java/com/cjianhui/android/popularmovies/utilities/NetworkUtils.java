@@ -117,7 +117,7 @@ public class NetworkUtils {
 
         String imageLink = builtUri.toString();
 
-        Log.v(TAG, "Built image link " + imageLink);
+        //Log.i(TAG, "Built image link " + imageLink);
         return imageLink;
     }
 

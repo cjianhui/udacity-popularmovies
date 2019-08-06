@@ -1,4 +1,4 @@
-package com.cjianhui.android.popularmovies;
+package com.cjianhui.android.popularmovies.ui.detail;
 
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;

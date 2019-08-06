@@ -1,4 +1,4 @@
-package com.cjianhui.android.popularmovies;
+package com.cjianhui.android.popularmovies.ui.main;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.cjianhui.android.popularmovies.R;
 import com.cjianhui.android.popularmovies.models.ImageSize;
 import com.cjianhui.android.popularmovies.models.Movie;
 import com.cjianhui.android.popularmovies.utilities.GenreUtils;

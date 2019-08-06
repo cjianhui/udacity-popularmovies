@@ -1,13 +1,16 @@
-package com.cjianhui.android.popularmovies;
+package com.cjianhui.android.popularmovies.ui.main;
 
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.support.annotation.DimenRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.AsyncTaskLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -20,14 +23,17 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.cjianhui.android.popularmovies.R;
 import com.cjianhui.android.popularmovies.models.Movie;
+import com.cjianhui.android.popularmovies.ui.detail.MovieDetailActivity;
 import com.cjianhui.android.popularmovies.utilities.MovieDBJsonUtils;
 import com.cjianhui.android.popularmovies.utilities.NetworkUtils;
 
 import java.net.URL;
 
 
-public class MainActivity extends AppCompatActivity implements MoviesAdapter.MoviesAdapterOnClickHandler {
+public class MainActivity extends AppCompatActivity implements MoviesAdapter.MoviesAdapterOnClickHandler,
+        LoaderManager.LoaderCallbacks<Movie[]> {
 
     private enum Sort {
         popular, top_rated
@@ -39,6 +45,8 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Mov
     private TextView mErrorMessageDisplay;
     private RecyclerView mRecyclerView;
     private ProgressBar mLoadingIndicator;
+
+    private static final int MOVIES_LOADER_ID = 0;
 
     private MoviesAdapter mMovieAdapter;
     private String sortBy = Sort.popular.name();
@@ -61,7 +69,70 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Mov
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(mMovieAdapter);
 
-        loadMoviesData();
+        int loaderId = MOVIES_LOADER_ID;
+        LoaderManager.LoaderCallbacks<Movie[]> callback = MainActivity.this;
+        Bundle bundleForLoader = null;
+        getSupportLoaderManager().initLoader(loaderId, bundleForLoader, callback);
+    }
+
+    @Override
+    public Loader<Movie[]> onCreateLoader(int i, final Bundle loaderArgs) {
+        return new AsyncTaskLoader<Movie[]>(this) {
+
+            Movie[] mMoviesData = null;
+
+            @Override
+            protected void onStartLoading() {
+                if (mMoviesData != null) {
+                    deliverResult(mMoviesData);
+                } else {
+                    mLoadingIndicator.setVisibility(View.VISIBLE);
+                    forceLoad();
+                }
+            }
+
+            @Override
+            public Movie[] loadInBackground() {
+                URL moviesRequestUrl = NetworkUtils.buildUrl(sortBy);
+
+                try {
+                    String jsonMoviesResponse = NetworkUtils
+                            .getResponseFromHttpUrl(moviesRequestUrl);
+                    Log.v(TAG, "Movies Json Response: " + jsonMoviesResponse);
+
+                    return MovieDBJsonUtils
+                            .parseMovieJson(jsonMoviesResponse);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            }
+
+            @Override
+            public void deliverResult(@Nullable Movie[] data) {
+                mMoviesData = data;
+                super.deliverResult(data);
+            }
+        };
+    }
+
+    @Override
+    public void onLoadFinished(@NonNull Loader<Movie[]> loader, Movie[] movies) {
+        mLoadingIndicator.setVisibility(View.INVISIBLE);
+        mMovieAdapter.setMoviesData(movies);
+        if (null == movies) {
+            showErrorMessage();
+        } else {
+            showMoviesView();
+        }
+    }
+
+    @Override
+    public void onLoaderReset(@NonNull Loader<Movie[]> loader) {
+    }
+
+    private void invalidateData() {
+        mMovieAdapter.setMoviesData(null);
     }
 
     @Override
@@ -128,7 +199,8 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Mov
             showErrorMessage();
         } else {
             showMoviesView();
-            new FetchMoviesTask().execute(sortBy);
+
+            getSupportLoaderManager().restartLoader(MOVIES_LOADER_ID, null, this);
         }
     }
 
@@ -160,44 +232,6 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Mov
             mErrorMessageDisplay.setText(R.string.error_message);
         }
         mErrorMessageDisplay.setVisibility(View.VISIBLE);
-    }
-
-    public class FetchMoviesTask extends AsyncTask<String, Void, Movie[]> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            mLoadingIndicator.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        protected Movie[] doInBackground(String... params) {
-
-            String sortBy = params[0];
-            URL moviesRequestUrl = NetworkUtils.buildUrl(sortBy);
-
-            try {
-                String jsonMoviesResponse = NetworkUtils
-                        .getResponseFromHttpUrl(moviesRequestUrl);
-                Log.v(TAG, "Movies Json Response: " + jsonMoviesResponse);
-
-                return MovieDBJsonUtils
-                        .parseMovieJson(jsonMoviesResponse);
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(Movie[] movies) {
-            mLoadingIndicator.setVisibility(View.INVISIBLE);
-            if (movies != null) {
-                showMoviesView();
-                mMovieAdapter.setMoviesData(movies);
-            } else {
-                showErrorMessage();
-            }
-        }
     }
 
     /*

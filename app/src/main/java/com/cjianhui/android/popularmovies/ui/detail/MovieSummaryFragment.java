@@ -1,4 +1,4 @@
-package com.cjianhui.android.popularmovies;
+package com.cjianhui.android.popularmovies.ui.detail;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.cjianhui.android.popularmovies.R;
 import com.cjianhui.android.popularmovies.models.ImageSize;
 import com.cjianhui.android.popularmovies.models.Movie;
 import com.cjianhui.android.popularmovies.utilities.GenreUtils;

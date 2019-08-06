@@ -1,26 +1,57 @@
 package com.cjianhui.android.popularmovies.models;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity(tableName = "movie")
 public class Movie implements Parcelable {
+
+    @PrimaryKey
     private int id;
+    @ColumnInfo(name = "vote_count")
     private int voteCount;
+
+    @Ignore
     private boolean video;
+
+    @ColumnInfo(name = "vote_average")
     private double voteAverage;
+
     private String title;
+    @Ignore
     private double popularity;
+
+    @ColumnInfo(name = "poster_path")
     private String posterPath;
+
+    @Ignore
     private String originalLanguage;
+    @Ignore
     private String originalTitle;
+
+    @ColumnInfo(name = "genre_ids")
     private List<Integer> genreIds;
+
+    @ColumnInfo(name = "backdrop_path")
     private String backdropPath;
+
+    @Ignore
     private boolean adult;
+
     private String overview;
+
+    @ColumnInfo(name = "release_date")
     private String releaseDate;
+
+
+
 
     public Movie(int id, int voteCount, boolean video, double voteAverage,
                  String title, double popularity, String posterPath, String originalLanguage,
