@@ -242,11 +242,11 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Mov
 
         private int mItemOffset;
 
-        public ItemOffsetDecoration(int itemOffset) {
+        ItemOffsetDecoration(int itemOffset) {
             mItemOffset = itemOffset;
         }
 
-        public ItemOffsetDecoration(@NonNull Context context, @DimenRes int itemOffsetId) {
+        ItemOffsetDecoration(@NonNull Context context, @DimenRes int itemOffsetId) {
             this(context.getResources().getDimensionPixelSize(itemOffsetId));
         }
 

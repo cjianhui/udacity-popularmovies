@@ -13,6 +13,9 @@ import java.util.List;
 @Entity(tableName = "movie")
 public class Movie implements Parcelable {
 
+    public Movie() {
+    }
+
     @PrimaryKey
     private int id;
     @ColumnInfo(name = "vote_count")
@@ -51,7 +54,61 @@ public class Movie implements Parcelable {
     private String releaseDate;
 
 
+    public void setId(int id) {
+        this.id = id;
+    }
 
+    public void setVoteCount(int voteCount) {
+        this.voteCount = voteCount;
+    }
+
+    public void setVideo(boolean video) {
+        this.video = video;
+    }
+
+    public void setVoteAverage(double voteAverage) {
+        this.voteAverage = voteAverage;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setPopularity(double popularity) {
+        this.popularity = popularity;
+    }
+
+    public void setPosterPath(String posterPath) {
+        this.posterPath = posterPath;
+    }
+
+    public void setOriginalLanguage(String originalLanguage) {
+        this.originalLanguage = originalLanguage;
+    }
+
+    public void setOriginalTitle(String originalTitle) {
+        this.originalTitle = originalTitle;
+    }
+
+    public void setGenreIds(List<Integer> genreIds) {
+        this.genreIds = genreIds;
+    }
+
+    public void setBackdropPath(String backdropPath) {
+        this.backdropPath = backdropPath;
+    }
+
+    public void setAdult(boolean adult) {
+        this.adult = adult;
+    }
+
+    public void setOverview(String overview) {
+        this.overview = overview;
+    }
+
+    public void setReleaseDate(String releaseDate) {
+        this.releaseDate = releaseDate;
+    }
 
     public Movie(int id, int voteCount, boolean video, double voteAverage,
                  String title, double popularity, String posterPath, String originalLanguage,
